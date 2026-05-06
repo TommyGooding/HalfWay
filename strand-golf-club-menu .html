@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Strand Golf Club – Halfway House Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #b8962e; --gold-light: #d4af50; --gold-pale: #f5ecd0;
+      --green-dark: #1a2e1a; --green-mid: #2d4a2d;
+      --cream: #faf8f3; --white: #ffffff;
+      --text-dark: #1a1a1a; --text-mid: #4a4a4a; --text-light: #888;
+      --border: #e5dcc8;
+    }
+    body { font-family: 'Barlow', sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; }
+
+    header { background: var(--green-dark); color: #fff; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 3px 20px rgba(0,0,0,0.4); }
+    .header-top { padding: 16px 16px 0; border-bottom: 2px solid var(--gold); }
+    .header-logo { font-size: 30px; line-height: 1; margin-bottom: 4px; }
+    .header-club { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 2px; }
+    .header-title { font-size: 19px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); padding-bottom: 12px; }
+    .header-badge { background: var(--green-mid); padding: 8px 16px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold-light); }
+    .header-badge::before { content: ''; width: 8px; height: 8px; background: #52b788; border-radius: 50%; flex-shrink: 0; }
+
+    .cart-bar { background: var(--white); border-bottom: 2px solid var(--gold-pale); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--text-mid); }
+    .cart-total { color: var(--green-mid); font-size: 16px; font-weight: 700; }
+
+    .section-title { padding: 20px 16px 0; }
+    .section-title h2 { font-size: 13px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); padding-bottom: 8px; border-bottom: 2px solid var(--gold-pale); margin-bottom: 10px; }
+
+    .menu-card { background: var(--white); margin: 0 12px 8px; border-radius: 8px; display: flex; align-items: stretch; cursor: pointer; border: 1.5px solid var(--border); transition: border-color 0.15s, background 0.15s, box-shadow 0.15s; overflow: hidden; }
+    .menu-card.selected { border-color: var(--gold); background: #fdf8ec; box-shadow: 0 0 0 3px rgba(184,150,46,0.12); }
+    .card-accent { width: 4px; flex-shrink: 0; background: var(--gold-light); }
+    .menu-card.selected .card-accent { background: var(--gold); }
+    .card-body { flex: 1; padding: 11px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .card-info { flex: 1; }
+    .card-name { font-size: 14px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.3px; }
+    .card-desc { font-size: 12px; color: var(--text-light); margin-top: 2px; line-height: 1.4; font-weight: 300; }
+    .card-price { font-size: 14px; font-weight: 700; color: var(--green-mid); white-space: nowrap; margin-left: 8px; }
+    .card-check { display: flex; align-items: center; padding: 0 10px 0 4px; }
+    .card-check input[type=checkbox] { display: none; }
+    /* Quantity stepper */
+    .qty-stepper { display: flex; align-items: center; gap: 0; }
+    .qty-btn { width: 30px; height: 30px; border-radius: 50%; border: none; background: var(--gold-pale); color: var(--green-dark); font-size: 18px; font-weight: 700; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s, transform 0.1s; flex-shrink: 0; user-select: none; }
+    .qty-btn:active { background: var(--gold-light); transform: scale(0.92); }
+    .qty-btn.minus { opacity: 0.35; pointer-events: none; }
+    .qty-count { min-width: 26px; text-align: center; font-size: 15px; font-weight: 700; color: var(--text-dark); }
+
+    .comment-section { margin: 8px 12px 0; background: var(--white); border-radius: 8px; padding: 14px; border: 1.5px solid var(--border); }
+    .comment-section label { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 8px; }
+    .comment-section textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 6px; padding: 10px 12px; font-size: 13px; font-family: 'Barlow', sans-serif; font-weight: 300; resize: none; outline: none; color: var(--text-dark); background: var(--cream); transition: border-color 0.2s; min-height: 75px; }
+    .comment-section textarea:focus { border-color: var(--gold); }
+
+    .send-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: calc(100% - 24px); margin: 14px 12px 30px; background: #25d366; color: #fff; border: none; border-radius: 10px; padding: 16px; font-size: 15px; font-weight: 700; font-family: 'Barlow', sans-serif; letter-spacing: 0.5px; cursor: pointer; box-shadow: 0 4px 16px rgba(37,211,102,0.3); transition: background 0.15s, transform 0.1s; }
+    .send-btn:active { background: #1ebe5d; transform: scale(0.98); }
+    .send-btn:disabled { background: #bbb; box-shadow: none; cursor: not-allowed; }
+    .send-btn svg { width: 22px; height: 22px; fill: #fff; flex-shrink: 0; }
+
+    .footer { text-align: center; padding: 0 16px 36px; color: var(--text-light); font-size: 11px; letter-spacing: 0.5px; line-height: 1.8; }
+
+    /* ── User Info Panel ── */
+    .user-info-panel { margin: 10px 12px 4px; background: var(--white); border-radius: 10px; border: 1.5px solid var(--border); overflow: hidden; }
+    .user-info-panel.prefilled { border-color: #52b788; background: #f0faf5; }
+    .user-info-header { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; cursor: pointer; user-select: none; }
+    .user-info-header-left { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); }
+    .user-info-header-left span.icon { font-size: 16px; }
+    .user-info-prefilled-name { font-size: 13px; font-weight: 600; color: #2d6a4f; }
+    .user-info-chevron { font-size: 12px; color: var(--text-light); transition: transform 0.2s; }
+    .user-info-chevron.open { transform: rotate(180deg); }
+    .user-info-body { padding: 0 14px 14px; display: none; }
+    .user-info-body.visible { display: block; }
+    .user-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .user-info-grid .full { grid-column: 1 / -1; }
+    .field-group { display: flex; flex-direction: column; gap: 4px; }
+    .field-group label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-mid); }
+    .field-group input { border: 1.5px solid var(--border); border-radius: 6px; padding: 9px 11px; font-size: 13px; font-family: 'Barlow', sans-serif; font-weight: 400; outline: none; color: var(--text-dark); background: var(--cream); transition: border-color 0.2s; width: 100%; }
+    .field-group input:focus { border-color: var(--gold); }
+    .field-group input.filled { border-color: #52b788; background: #f0faf5; }
+    .required-note { font-size: 11px; color: var(--text-light); margin-top: 8px; }
+    .required-note span { color: #c0392b; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-logo">⛳</div>
+    <div class="header-club">Strand Golf Club · Est. 1924</div>
+    <div class="header-title">Halfway House Menu</div>
+  </div>
+  <div class="header-badge">You are nearby — order now</div>
+  <div id="user-badge" style="display:none; margin: 4px auto 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff; font-size: 12px; font-weight: 600; padding: 4px 14px; border-radius: 20px; width: fit-content;"></div>
+</header>
+
+<!-- ── User Info Panel ── -->
+<div class="user-info-panel" id="user-info-panel">
+  <div class="user-info-header" onclick="toggleUserPanel()">
+    <div class="user-info-header-left">
+      <span class="icon">👤</span>
+      <span id="user-info-header-label">Your Details <span style="color:#c0392b">*</span></span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="user-info-prefilled-name" id="user-prefilled-name"></span>
+      <span class="user-info-chevron" id="user-chevron">▼</span>
+    </div>
+  </div>
+  <div class="user-info-body visible" id="user-info-body">
+    <div class="user-info-grid">
+      <div class="field-group">
+        <label>First Name <span style="color:#c0392b">*</span></label>
+        <input type="text" id="f-name" placeholder="e.g. John" oninput="onUserInput()" autocomplete="given-name"/>
+      </div>
+      <div class="field-group">
+        <label>Surname</label>
+        <input type="text" id="f-surname" placeholder="e.g. Smith" oninput="onUserInput()" autocomplete="family-name"/>
+      </div>
+      <div class="field-group">
+        <label>Phone Number</label>
+        <input type="tel" id="f-phone" placeholder="e.g. 082 123 4567" oninput="onUserInput()" autocomplete="tel"/>
+      </div>
+      <div class="field-group">
+        <label>Member No.</label>
+        <input type="text" id="f-member" placeholder="e.g. SGC-042" oninput="onUserInput()"/>
+      </div>
+    </div>
+    <div class="required-note"><span>*</span> Required to send your order</div>
+  </div>
+</div>
+
+<div class="cart-bar">
+  <span>Selected: <strong id="item-count">0 items</strong></span>
+  <span class="cart-total" id="total-price">R0.00</span>
+</div>
+
+<!-- AM FAVOURITES -->
+<div class="section-title"><h2>AM Favourites</h2></div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Birdie</div><div class="card-desc">2 Eggs, Bacon, Tomato &amp; Toast</div></div><div class="card-price">R75</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Birdie" data-price="75"><div class="qty-stepper" id="stepper-Birdie" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Birdie" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Drop Shot Single</div><div class="card-desc">Mince &amp; Egg on Toast</div></div><div class="card-price">R60</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Drop Shot Single" data-price="60"><div class="qty-stepper" id="stepper-Drop_Shot_Single" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Drop_Shot_Single" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Drop Shot Double</div><div class="card-desc">Mince &amp; 2 Eggs on Toast</div></div><div class="card-price">R100</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Drop Shot Double" data-price="100"><div class="qty-stepper" id="stepper-Drop_Shot_Double" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Drop_Shot_Double" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Eagle</div><div class="card-desc">2 Eggs, Bacon, Boerewors, Tomato &amp; Toast</div></div><div class="card-price">R95</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Eagle" data-price="95"><div class="qty-stepper" id="stepper-Eagle" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Eagle" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Breakfast Bun</div><div class="card-desc">1 Egg, Bacon on a toasted Brioche Bun</div></div><div class="card-price">R45</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Breakfast Bun" data-price="45"><div class="qty-stepper" id="stepper-Breakfast_Bun" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Breakfast_Bun" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Eggs &amp; Chips</div><div class="card-desc">2 Eggs &amp; a Portion of Chips</div></div><div class="card-price">R55</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Eggs & Chips" data-price="55"><div class="qty-stepper" id="stepper-Eggs___Chips" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Eggs___Chips" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Plain Omelette</div><div class="card-desc">2 Egg Omelette filled with Cheese</div></div><div class="card-price">R50</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Plain Omelette" data-price="50"><div class="qty-stepper" id="stepper-Plain_Omelette" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Plain_Omelette" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">2 Eggs on Toast</div><div class="card-desc">2 Eggs on Toast</div></div><div class="card-price">R30</div></div>
+  <div class="card-check"><input type="checkbox" data-name="2 Eggs on Toast" data-price="30"><div class="qty-stepper" id="stepper-2_Eggs_on_Toast" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-2_Eggs_on_Toast" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Russian Breakfast</div><div class="card-desc">2 Eggs, Russian &amp; Chips</div></div><div class="card-price">R90</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Russian Breakfast" data-price="90"><div class="qty-stepper" id="stepper-Russian_Breakfast" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Russian_Breakfast" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Protein Bowl</div><div class="card-desc">Boiled Eggs, Cheese, Ham, Lettuce &amp; Tomato</div></div><div class="card-price">R40</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Protein Bowl" data-price="40"><div class="qty-stepper" id="stepper-Protein_Bowl" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Protein_Bowl" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<!-- ON THE SIDE -->
+<div class="section-title"><h2>On the Side</h2></div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Small Chips</div></div><div class="card-price">R30</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Small Chips" data-price="30"><div class="qty-stepper" id="stepper-Small_Chips" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Small_Chips" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Medium Chips</div></div><div class="card-price">R55</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Medium Chips" data-price="55"><div class="qty-stepper" id="stepper-Medium_Chips" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Medium_Chips" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Large Chips</div></div><div class="card-price">R75</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Large Chips" data-price="75"><div class="qty-stepper" id="stepper-Large_Chips" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Large_Chips" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<!-- CLUB TOASTIES -->
+<div class="section-title"><h2>Club Toasties</h2></div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Bacon &amp; Cheese</div></div><div class="card-price">R50</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Toastie: Bacon & Cheese" data-price="50"><div class="qty-stepper" id="stepper-Toastie__Bacon___Cheese" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Bacon___Cheese" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Bacon &amp; Egg</div></div><div class="card-price">R45</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Toastie: Bacon & Egg" data-price="45"><div class="qty-stepper" id="stepper-Toastie__Bacon___Egg" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Bacon___Egg" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Bacon, Egg &amp; Cheese</div></div><div class="card-price">R55</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Toastie: Bacon, Egg & Cheese" data-price="55"><div class="qty-stepper" id="stepper-Toastie__Bacon__Egg___Cheese" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Bacon__Egg___Cheese" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Cheese &amp; Onion</div></div><div class="card-price">R40</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Toastie: Cheese & Onion" data-price="40"><div class="qty-stepper" id="stepper-Toastie__Cheese___Onion" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Cheese___Onion" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Cheese &amp; Tomato</div></div><div class="card-price">R40</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Toastie: Cheese & Tomato" data-price="40"><div class="qty-stepper" id="stepper-Toastie__Cheese___Tomato" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Cheese___Tomato" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Chicken Mayo</div></div><div class="card-price">R45</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Toastie: Chicken Mayo" data-price="45"><div class="qty-stepper" id="stepper-Toastie__Chicken_Mayo" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Chicken_Mayo" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Egg &amp; Cheese</div></div><div class="card-price">R40</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Toastie: Egg & Cheese" data-price="40"><div class="qty-stepper" id="stepper-Toastie__Egg___Cheese" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Egg___Cheese" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Ham &amp; Cheese</div></div><div class="card-price">R40</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Toastie: Ham & Cheese" data-price="40"><div class="qty-stepper" id="stepper-Toastie__Ham___Cheese" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Ham___Cheese" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Ham &amp; Egg</div></div><div class="card-price">R40</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Toastie: Ham & Egg" data-price="40"><div class="qty-stepper" id="stepper-Toastie__Ham___Egg" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Ham___Egg" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Ham, Cheese &amp; Tomato</div></div><div class="card-price">R45</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Toastie: Ham, Cheese & Tomato" data-price="45"><div class="qty-stepper" id="stepper-Toastie__Ham__Cheese___Tomato" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Ham__Cheese___Tomato" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Mince &amp; Cheese</div></div><div class="card-price">R65</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Toastie: Mince & Cheese" data-price="65"><div class="qty-stepper" id="stepper-Toastie__Mince___Cheese" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Mince___Cheese" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Plain Cheese</div></div><div class="card-price">R35</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Toastie: Plain Cheese" data-price="35"><div class="qty-stepper" id="stepper-Toastie__Plain_Cheese" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Plain_Cheese" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<!-- ON-THE-GO GOODIES -->
+<div class="section-title"><h2>On-The-Go Goodies</h2></div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Chicken Wrap</div><div class="card-desc">Chicken Tenders, Lettuce, Cucumber, Tomato, Onion in a Tortilla Wrap</div></div><div class="card-price">R60</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Chicken Wrap" data-price="60"><div class="qty-stepper" id="stepper-Chicken_Wrap" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Chicken_Wrap" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Chicken Strips &amp; Chips</div><div class="card-desc">Crumbed Chicken Breast Fillet with Chips</div></div><div class="card-price">R95</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Chicken Strips & Chips" data-price="95"><div class="qty-stepper" id="stepper-Chicken_Strips___Chips" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Chicken_Strips___Chips" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Beef Burger</div><div class="card-desc">Homemade 150g grilled Beef Patty on a seeded Brioche Bun</div></div><div class="card-price">R80</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Beef Burger" data-price="80"><div class="qty-stepper" id="stepper-Beef_Burger" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Beef_Burger" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<div class="menu-card">
+  <div class="card-accent"></div>
+  <div class="card-body"><div class="card-info"><div class="card-name">Chicken Burger</div><div class="card-desc">Grilled Chicken Breast Fillet on a seeded Brioche Bun</div></div><div class="card-price">R80</div></div>
+  <div class="card-check"><input type="checkbox" data-name="Chicken Burger" data-price="80"><div class="qty-stepper" id="stepper-Chicken_Burger" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Chicken_Burger" onclick="addItem(event,this)">+</button></div>
+</div>
+
+<!-- SPECIAL REQUESTS -->
+<div class="section-title"><h2>Special Requests</h2></div>
+<div class="comment-section">
+  <label for="comment">Notes for the kitchen</label>
+  <textarea id="comment" placeholder="e.g. No onions, extra sauce, allergy info, table number…" rows="3"></textarea>
+</div>
+
+<button class="send-btn" id="send-btn" onclick="sendOrder()" disabled>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+  Send Order via WhatsApp
+</button>
+
+<div class="footer">
+  ⛳ Strand Golf Club · Est. 1924<br>
+  Beach Road, Strand · +27 21 853 6268<br>
+  Prices include VAT
+</div>
+
+<script>
+  const WHATSAPP_NUMBER = '27615142620';
+
+  // ── URL / injected user info ──
+  function getUrlUserInfo() {
+    const p = new URLSearchParams(window.location.search);
+    return {
+      name:    p.get('user_name')    || window._userName    || '',
+      surname: p.get('user_surname') || window._userSurname || '',
+      phone:   p.get('user_phone')   || window._userPhone   || '',
+      member:  p.get('user_member')  || window._userMember  || ''
+    };
+  }
+  function getFormUserInfo() {
+    return {
+      name:    document.getElementById('f-name').value.trim(),
+      surname: document.getElementById('f-surname').value.trim(),
+      phone:   document.getElementById('f-phone').value.trim(),
+      member:  document.getElementById('f-member').value.trim()
+    };
+  }
+  function getUserInfo() {
+    const u = getUrlUserInfo(), f = getFormUserInfo();
+    return { name: u.name||f.name, surname: u.surname||f.surname, phone: u.phone||f.phone, member: u.member||f.member };
+  }
+
+  // ── User Panel ──
+  function toggleUserPanel() {
+    const body = document.getElementById('user-info-body');
+    const chev = document.getElementById('user-chevron');
+    const open = body.classList.contains('visible');
+    body.classList.toggle('visible', !open);
+    chev.classList.toggle('open', !open);
+  }
+  function onUserInput() {
+    const name    = document.getElementById('f-name').value.trim();
+    const surname = document.getElementById('f-surname').value.trim();
+    ['f-name','f-surname','f-phone','f-member'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.toggle('filled', el.value.trim().length > 0);
+    });
+    document.getElementById('user-prefilled-name').textContent = [name,surname].filter(Boolean).join(' ');
+    updateSendBtn();
+  }
+  function prefillForm(user) {
+    if (user.name)    document.getElementById('f-name').value    = user.name;
+    if (user.surname) document.getElementById('f-surname').value = user.surname;
+    if (user.phone)   document.getElementById('f-phone').value   = user.phone;
+    if (user.member)  document.getElementById('f-member').value  = user.member;
+    onUserInput();
+    if (user.name || user.surname) {
+      document.getElementById('user-info-panel').classList.add('prefilled');
+      document.getElementById('user-info-body').classList.remove('visible');
+      document.getElementById('user-chevron').classList.remove('open');
+      document.getElementById('user-info-header-label').innerHTML = 'Ordering as';
+    }
+  }
+  function applyUserInfo() { prefillForm(getUrlUserInfo()); }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const u = getUrlUserInfo();
+    if (u.name||u.surname||u.phone||u.member) prefillForm(u);
+    updateSendBtn();
+  });
+
+  // ── Cart: keyed by name ──
+  const cart = {}; // name -> { name, price, qty }
+
+  function getSafeName(btn) {
+    // Walk up to card-check, find the hidden checkbox
+    const check = btn.closest('.card-check');
+    return check.querySelector('input[type=checkbox]').dataset.name;
+  }
+  function getPrice(btn) {
+    return parseFloat(btn.closest('.card-check').querySelector('input[type=checkbox]').dataset.price);
+  }
+  function getSafeId(name) { return name.replace(/[^a-zA-Z0-9]/g,'_'); }
+
+  function addItem(e, btn) {
+    e.stopPropagation();
+    const name  = getSafeName(btn);
+    const price = getPrice(btn);
+    const sid   = getSafeId(name);
+    cart[name]  = { name, price, qty: 1 };
+    // Show stepper, hide add btn
+    document.getElementById('stepper-'+sid).style.display = 'flex';
+    btn.style.display = 'none';
+    // Highlight card
+    btn.closest('.menu-card').classList.add('selected');
+    btn.closest('.menu-card').querySelector('.card-accent').style.background = 'var(--gold)';
+    updateMinusBtn(sid, 1);
+    updateCart();
+  }
+
+  function changeQty(e, btn, delta) {
+    e.stopPropagation();
+    const check   = btn.closest('.card-check');
+    const name    = check.querySelector('input[type=checkbox]').dataset.name;
+    const sid     = getSafeId(name);
+    const stepper = document.getElementById('stepper-'+sid);
+    const addBtn  = document.getElementById('addbtn-'+sid);
+    let qty = (cart[name] ? cart[name].qty : 0) + delta;
+
+    if (qty <= 0) {
+      // Remove from cart
+      delete cart[name];
+      stepper.style.display = 'none';
+      addBtn.style.display  = '';
+      btn.closest('.menu-card').classList.remove('selected');
+    } else {
+      cart[name].qty = qty;
+      stepper.querySelector('.qty-count').textContent = qty;
+      updateMinusBtn(sid, qty);
+    }
+    updateCart();
+  }
+
+  function updateMinusBtn(sid, qty) {
+    const minus = document.querySelector('#stepper-'+sid+' .minus');
+    if (!minus) return;
+    minus.classList.toggle('minus', qty <= 1);
+    minus.style.opacity       = qty <= 1 ? '0.35' : '1';
+    minus.style.pointerEvents = qty <= 1 ? 'none'  : 'auto';
+  }
+
+  function updateCart() {
+    const items = Object.values(cart);
+    const count = items.reduce((s,i) => s + i.qty, 0);
+    const total = items.reduce((s,i) => s + i.price * i.qty, 0);
+    document.getElementById('item-count').textContent = count + (count === 1 ? ' item' : ' items');
+    document.getElementById('total-price').textContent = 'R' + total.toFixed(2);
+    updateSendBtn();
+  }
+
+  function updateSendBtn() {
+    const name    = document.getElementById('f-name').value.trim() || getUrlUserInfo().name;
+    const hasItem = Object.keys(cart).length > 0;
+    document.getElementById('send-btn').disabled = !hasItem || !name;
+  }
+
+  // ── Send Order ──
+  function sendOrder() {
+    const user  = getUserInfo();
+    if (!user.name) { alert('Please enter your first name before sending.'); return; }
+    const items = Object.values(cart);
+    if (!items.length) return;
+
+    const comment  = document.getElementById('comment').value.trim();
+    const now      = new Date().toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' });
+    const total    = items.reduce((s,i) => s + i.price * i.qty, 0);
+    const fullName = [user.name, user.surname].filter(Boolean).join(' ');
+
+    let msg = `🍽️ *New Halfway House Order*
+`;
+    msg    += `🕐 Time: ${now}
+`;
+    msg    += `─────────────────────
+
+`;
+
+    msg    += `👤 *Customer*
+`;
+    msg    += `   ${fullName}
+`;
+    if (user.phone)  msg += `   📞 ${user.phone}
+`;
+    if (user.member) msg += `   🏌️ Member #${user.member}
+`;
+    msg    += `
+`;
+
+    msg    += `📋 *Order*
+`;
+    items.forEach(i => {
+      const lineTotal = (i.price * i.qty).toFixed(2);
+      const qtyStr    = i.qty > 1 ? ` x${i.qty}` : '';
+      msg += `   ✅ ${i.name}${qtyStr}  –  R${lineTotal}
+`;
+    });
+    msg += `
+💰 *Total: R${total.toFixed(2)}*`;
+
+    if (comment) msg += `
+
+📝 *Note:* ${comment}`;
+    msg += `
+
+─────────────────────
+⛳ Strand Golf Club`;
+
+    window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  }
+</script>
+</body>
+</html>
