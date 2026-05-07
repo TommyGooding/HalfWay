@@ -157,6 +157,51 @@
     .section-name-btn:hover { color: var(--gold); }
     .section-delete-btn { background: transparent; border: none; cursor: pointer; font-size: 11px; color: #f5b8b8; margin-left: 4px; padding: 2px 6px; border-radius: 4px; transition: color 0.15s; }
     .section-delete-btn:hover { color: var(--red); }
+
+    /* ── ADMIN TABS ── */
+    .admin-tabs { display: flex; background: var(--green-mid); }
+    .admin-tab { flex: 1; padding: 11px 8px; text-align: center; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.15s; }
+    .admin-tab.active { color: var(--gold-light); border-bottom-color: var(--gold); }
+    /* ── ORDER STATS ── */
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+    .stat-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+    .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-light); margin-bottom: 4px; }
+    .stat-value { font-size: 22px; font-weight: 700; color: var(--green-dark); }
+    .stat-sub { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+    /* ── ORDER FILTER ── */
+    .order-filter-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+    .filter-btn { padding: 6px 13px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--white); font-size: 12px; font-weight: 600; color: var(--text-mid); cursor: pointer; font-family: 'Barlow', sans-serif; transition: all 0.15s; }
+    .filter-btn.active { background: var(--green-dark); color: #fff; border-color: var(--green-dark); }
+    /* ── ORDER CARDS ── */
+    .order-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; transition: border-color 0.15s; }
+    .order-card:hover { border-color: var(--gold-light); }
+    .order-card-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; cursor: pointer; }
+    .order-card-left { display: flex; flex-direction: column; }
+    .order-card-name { font-size: 14px; font-weight: 700; color: var(--text-dark); }
+    .order-card-time { font-size: 11px; color: var(--text-light); margin-top: 1px; }
+    .order-card-right { display: flex; align-items: center; gap: 8px; }
+    .order-card-total { font-size: 15px; font-weight: 700; color: var(--green-mid); }
+    .order-card-chevron { font-size: 11px; color: var(--text-light); transition: transform 0.2s; }
+    .order-card-chevron.open { transform: rotate(180deg); }
+    .order-card-body { display: none; padding: 0 14px 14px; border-top: 1px solid var(--gold-pale); }
+    .order-card-body.open { display: block; }
+    .order-item-row { display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0; border-bottom: 1px solid var(--gold-pale); color: var(--text-mid); }
+    .order-item-row:last-child { border-bottom: none; }
+    .order-note { font-size: 12px; color: var(--text-light); margin-top: 8px; font-style: italic; padding-top: 6px; }
+    .order-total-row { display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; color: var(--green-dark); padding-top: 8px; margin-top: 4px; border-top: 2px solid var(--gold-pale); }
+    .no-orders { text-align: center; padding: 40px 20px; color: var(--text-light); font-size: 14px; }
+    .no-orders-icon { font-size: 36px; margin-bottom: 10px; }
+    .top-items-section { background: var(--white); border: 1.5px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 18px; }
+    .top-section-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .top-item-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--gold-pale); }
+    .top-item-row:last-child { border-bottom: none; }
+    .top-item-rank { font-size: 13px; font-weight: 700; color: var(--gold); min-width: 20px; }
+    .top-item-name { flex: 1; font-size: 13px; color: var(--text-dark); }
+    .top-item-bar-wrap { width: 50px; height: 5px; background: var(--gold-pale); border-radius: 3px; overflow: hidden; }
+    .top-item-bar { height: 100%; background: var(--gold); border-radius: 3px; }
+    .top-item-count { font-size: 12px; color: var(--text-light); min-width: 30px; text-align: right; }
+    .clear-orders-btn { background: transparent; border: 1.5px solid #f5b8b8; color: var(--red); border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 600; font-family: 'Barlow', sans-serif; cursor: pointer; transition: all 0.15s; }
+    .clear-orders-btn:hover { background: #fde8e8; }
   </style>
 </head>
 <body>
@@ -217,11 +262,20 @@
     <div class="admin-header-title">⛳ Menu Admin</div>
     <button class="admin-logout" onclick="adminLogout()">Log Out</button>
   </div>
-  <div class="admin-body" id="admin-body">
-    <!-- rendered by JS -->
+  <div class="admin-tabs">
+    <div class="admin-tab active" id="tab-menu" onclick="switchTab('menu')">🍽 Menu</div>
+    <div class="admin-tab" id="tab-orders" onclick="switchTab('orders')">📋 Orders</div>
   </div>
-  <div style="text-align:center; padding: 0 12px 40px;">
-    <button class="btn-add-section" onclick="addSection()">+ Add New Menu Section</button>
+  <!-- MENU TAB -->
+  <div id="tab-content-menu">
+    <div class="admin-body" id="admin-body"></div>
+    <div style="text-align:center; padding: 0 12px 40px;">
+      <button class="btn-add-section" onclick="addSection()">+ Add New Menu Section</button>
+    </div>
+  </div>
+  <!-- ORDERS TAB -->
+  <div id="tab-content-orders" style="display:none;">
+    <div class="admin-body" id="orders-body"></div>
   </div>
 </div>
 
@@ -539,6 +593,8 @@ function sendOrder() {
   msg += `\n💰 *Total: R${total.toFixed(2)}*`;
   if (comment) msg += `\n\n📝 *Note:* ${comment}`;
   msg += `\n\n─────────────────────\n⛳ Strand Golf Club`;
+  // Log the order
+  logOrder({ name: user.name, items: Object.values(cart).map(i=>({name:i.name,price:i.price,qty:i.qty})), total, comment, timestamp: new Date().toISOString() });
   window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
 }
 
@@ -573,6 +629,7 @@ function showAdminPanel() {
   document.getElementById('customer-view').style.display = 'none';
   document.getElementById('admin-panel').classList.add('active');
   renderAdminPanel();
+  renderOrdersTab();
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -793,6 +850,154 @@ window.addEventListener('DOMContentLoaded', () => {
   if (u.name) prefillForm(u);
   updateSendBtn();
 });
+
+// ─────────────────────────────────────────────────────────────
+// TAB SWITCHING
+// ─────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  document.getElementById('tab-menu').classList.toggle('active', tab === 'menu');
+  document.getElementById('tab-orders').classList.toggle('active', tab === 'orders');
+  document.getElementById('tab-content-menu').style.display = tab === 'menu' ? '' : 'none';
+  document.getElementById('tab-content-orders').style.display = tab === 'orders' ? '' : 'none';
+  if (tab === 'orders') renderOrdersTab();
+}
+
+// ─────────────────────────────────────────────────────────────
+// ORDER HISTORY
+// ─────────────────────────────────────────────────────────────
+function loadOrders() {
+  try { return JSON.parse(localStorage.getItem('sgc_orders') || '[]'); } catch(e) { return []; }
+}
+function saveOrders(orders) {
+  localStorage.setItem('sgc_orders', JSON.stringify(orders));
+}
+function logOrder(order) {
+  const orders = loadOrders();
+  order.id = Date.now();
+  orders.unshift(order); // newest first
+  // keep only last 90 days
+  const cutoff = Date.now() - 90 * 24 * 60 * 60 * 1000;
+  const trimmed = orders.filter(o => new Date(o.timestamp).getTime() > cutoff);
+  saveOrders(trimmed);
+}
+
+let activeFilter = '30'; // days
+
+function getFilteredOrders() {
+  const orders = loadOrders();
+  const days = parseInt(activeFilter);
+  const cutoff = Date.now() - days * 24 * 60 * 60 * 1000;
+  return orders.filter(o => new Date(o.timestamp).getTime() > cutoff);
+}
+
+function formatOrderDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-ZA', { day:'2-digit', month:'short', year:'numeric' }) + ' · ' + d.toLocaleTimeString('en-ZA', { hour:'2-digit', minute:'2-digit' });
+}
+
+function renderOrdersTab() {
+  const body = document.getElementById('orders-body');
+  body.innerHTML = '';
+  const filtered = getFilteredOrders();
+  const allOrders = loadOrders();
+
+  // Stats
+  const totalRev = filtered.reduce((s,o) => s + o.total, 0);
+  const statsHtml = `
+    <div style="padding: 16px 12px 0;">
+      <div class="order-filter-row">
+        <button class="filter-btn ${activeFilter==='7'?'active':''}" onclick="setFilter('7')">7 days</button>
+        <button class="filter-btn ${activeFilter==='30'?'active':''}" onclick="setFilter('30')">30 days</button>
+        <button class="filter-btn ${activeFilter==='60'?'active':''}" onclick="setFilter('60')">60 days</button>
+        <button class="filter-btn ${activeFilter==='90'?'active':''}" onclick="setFilter('90')">90 days</button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">Orders</div><div class="stat-value">${filtered.length}</div><div class="stat-sub">last ${activeFilter} days</div></div>
+        <div class="stat-card"><div class="stat-label">Revenue</div><div class="stat-value">R${totalRev.toFixed(0)}</div><div class="stat-sub">last ${activeFilter} days</div></div>
+      </div>
+      ${renderTopItems(filtered)}
+    </div>`;
+
+  const statsDiv = document.createElement('div');
+  statsDiv.innerHTML = statsHtml;
+  body.appendChild(statsDiv);
+
+  // Orders header
+  const hdr = document.createElement('div');
+  hdr.style.cssText = 'padding: 0 12px 8px; display:flex; align-items:center; justify-content:space-between;';
+  hdr.innerHTML = `<span style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);">Order History</span>
+    ${allOrders.length > 0 ? '<button class="clear-orders-btn" onclick="clearAllOrders()">Clear All</button>' : ''}`;
+  body.appendChild(hdr);
+
+  // Orders list
+  const listDiv = document.createElement('div');
+  listDiv.style.padding = '0 12px 40px';
+
+  if (filtered.length === 0) {
+    listDiv.innerHTML = `<div class="no-orders"><div class="no-orders-icon">📋</div>No orders in the last ${activeFilter} days.</div>`;
+  } else {
+    filtered.forEach((order, idx) => {
+      const card = document.createElement('div');
+      card.className = 'order-card';
+      const bodyId = 'order-body-' + order.id;
+      card.innerHTML = `
+        <div class="order-card-header" onclick="toggleOrderCard('${bodyId}', this)">
+          <div class="order-card-left">
+            <div class="order-card-name">👤 ${escHtml(order.name)}</div>
+            <div class="order-card-time">${formatOrderDate(order.timestamp)}</div>
+          </div>
+          <div class="order-card-right">
+            <div class="order-card-total">R${order.total.toFixed(2)}</div>
+            <div class="order-card-chevron">▼</div>
+          </div>
+        </div>
+        <div class="order-card-body" id="${bodyId}">
+          ${order.items.map(i => `<div class="order-item-row"><span>${escHtml(i.name)}${i.qty>1?' x'+i.qty:''}</span><span>R${(i.price*i.qty).toFixed(2)}</span></div>`).join('')}
+          <div class="order-total-row"><span>Total</span><span>R${order.total.toFixed(2)}</span></div>
+          ${order.comment ? `<div class="order-note">📝 ${escHtml(order.comment)}</div>` : ''}
+        </div>`;
+      listDiv.appendChild(card);
+    });
+  }
+  body.appendChild(listDiv);
+}
+
+function renderTopItems(orders) {
+  if (orders.length === 0) return '';
+  const counts = {};
+  orders.forEach(o => o.items.forEach(i => { counts[i.name] = (counts[i.name]||0) + i.qty; }));
+  const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0,5);
+  if (sorted.length === 0) return '';
+  const max = sorted[0][1];
+  const rows = sorted.map(([ name, qty ], i) =>
+    `<div class="top-item-row">
+      <span class="top-item-rank">#${i+1}</span>
+      <span class="top-item-name">${escHtml(name)}</span>
+      <div class="top-item-bar-wrap"><div class="top-item-bar" style="width:${Math.round(qty/max*100)}%"></div></div>
+      <span class="top-item-count">${qty} sold</span>
+    </div>`).join('');
+  return `<div class="top-items-section"><div class="top-section-label">🏆 Top Items</div>${rows}</div>`;
+}
+
+function toggleOrderCard(bodyId, header) {
+  const body = document.getElementById(bodyId);
+  const chev = header.querySelector('.order-card-chevron');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+
+function setFilter(days) {
+  activeFilter = days;
+  renderOrdersTab();
+}
+
+function clearAllOrders() {
+  if (!confirm('Clear all order history? This cannot be undone.')) return;
+  localStorage.removeItem('sgc_orders');
+  renderOrdersTab();
+}
+
 </script>
 </body>
 </html>
