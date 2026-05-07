@@ -13,9 +13,11 @@
       --cream: #faf8f3; --white: #ffffff;
       --text-dark: #1a1a1a; --text-mid: #4a4a4a; --text-light: #888;
       --border: #e5dcc8;
+      --red: #c0392b; --red-light: #e74c3c;
     }
     body { font-family: 'Barlow', sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; }
 
+    /* ── HEADER ── */
     header { background: var(--green-dark); color: #fff; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 3px 20px rgba(0,0,0,0.4); }
     .header-top { padding: 16px 16px 0; border-bottom: 2px solid var(--gold); }
     .header-logo { font-size: 30px; line-height: 1; margin-bottom: 4px; }
@@ -23,10 +25,14 @@
     .header-title { font-size: 19px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); padding-bottom: 12px; }
     .header-badge { background: var(--green-mid); padding: 8px 16px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold-light); }
     .header-badge::before { content: ''; width: 8px; height: 8px; background: #52b788; border-radius: 50%; flex-shrink: 0; }
+    .admin-link { font-size: 10px; color: rgba(255,255,255,0.3); text-align: right; padding: 4px 12px 0; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; }
+    .admin-link:hover { color: var(--gold-light); }
 
+    /* ── CART BAR ── */
     .cart-bar { background: var(--white); border-bottom: 2px solid var(--gold-pale); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--text-mid); }
     .cart-total { color: var(--green-mid); font-size: 16px; font-weight: 700; }
 
+    /* ── MENU SECTIONS ── */
     .section-title { padding: 20px 16px 0; }
     .section-title h2 { font-size: 13px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); padding-bottom: 8px; border-bottom: 2px solid var(--gold-pale); margin-bottom: 10px; }
 
@@ -41,13 +47,13 @@
     .card-price { font-size: 14px; font-weight: 700; color: var(--green-mid); white-space: nowrap; margin-left: 8px; }
     .card-check { display: flex; align-items: center; padding: 0 10px 0 4px; }
     .card-check input[type=checkbox] { display: none; }
-    /* Quantity stepper */
     .qty-stepper { display: flex; align-items: center; gap: 0; }
     .qty-btn { width: 30px; height: 30px; border-radius: 50%; border: none; background: var(--gold-pale); color: var(--green-dark); font-size: 18px; font-weight: 700; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s, transform 0.1s; flex-shrink: 0; user-select: none; }
     .qty-btn:active { background: var(--gold-light); transform: scale(0.92); }
     .qty-btn.minus { opacity: 0.35; pointer-events: none; }
     .qty-count { min-width: 26px; text-align: center; font-size: 15px; font-weight: 700; color: var(--text-dark); }
 
+    /* ── COMMENT / SEND ── */
     .comment-section { margin: 8px 12px 0; background: var(--white); border-radius: 8px; padding: 14px; border: 1.5px solid var(--border); }
     .comment-section label { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 8px; }
     .comment-section textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 6px; padding: 10px 12px; font-size: 13px; font-family: 'Barlow', sans-serif; font-weight: 300; resize: none; outline: none; color: var(--text-dark); background: var(--cream); transition: border-color 0.2s; min-height: 75px; }
@@ -60,7 +66,7 @@
 
     .footer { text-align: center; padding: 0 16px 36px; color: var(--text-light); font-size: 11px; letter-spacing: 0.5px; line-height: 1.8; }
 
-    /* ── User Info Panel ── */
+    /* ── USER INFO PANEL ── */
     .user-info-panel { margin: 10px 12px 4px; background: var(--white); border-radius: 10px; border: 1.5px solid var(--border); overflow: hidden; }
     .user-info-panel.prefilled { border-color: #52b788; background: #f0faf5; }
     .user-info-header { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; cursor: pointer; user-select: none; }
@@ -80,9 +86,83 @@
     .field-group input.filled { border-color: #52b788; background: #f0faf5; }
     .required-note { font-size: 11px; color: var(--text-light); margin-top: 8px; }
     .required-note span { color: #c0392b; }
+
+    /* ── ADMIN LOGIN MODAL ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 999; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.active { display: flex; }
+    .modal { background: var(--white); border-radius: 16px; width: 100%; max-width: 380px; padding: 28px 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+    .modal-title { font-size: 18px; font-weight: 700; color: var(--green-dark); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .modal-sub { font-size: 12px; color: var(--text-light); margin-bottom: 20px; }
+    .modal-field { margin-bottom: 14px; }
+    .modal-field label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-mid); margin-bottom: 5px; }
+    .modal-field input { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 11px 14px; font-size: 14px; font-family: 'Barlow', sans-serif; outline: none; color: var(--text-dark); background: var(--cream); transition: border-color 0.2s; }
+    .modal-field input:focus { border-color: var(--gold); }
+    .modal-error { font-size: 12px; color: var(--red); margin-bottom: 12px; display: none; }
+    .modal-btns { display: flex; gap: 10px; margin-top: 4px; }
+    .btn-primary { flex: 1; background: var(--green-dark); color: #fff; border: none; border-radius: 8px; padding: 13px; font-size: 14px; font-weight: 700; font-family: 'Barlow', sans-serif; cursor: pointer; letter-spacing: 0.5px; transition: background 0.15s; }
+    .btn-primary:hover { background: var(--green-mid); }
+    .btn-secondary { flex: 1; background: transparent; color: var(--text-mid); border: 1.5px solid var(--border); border-radius: 8px; padding: 13px; font-size: 14px; font-weight: 600; font-family: 'Barlow', sans-serif; cursor: pointer; transition: border-color 0.15s; }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── ADMIN PANEL ── */
+    #admin-panel { display: none; }
+    #admin-panel.active { display: block; }
+
+    .admin-header { background: var(--green-dark); padding: 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+    .admin-header-title { color: var(--gold-light); font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+    .admin-logout { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 600; font-family: 'Barlow', sans-serif; cursor: pointer; letter-spacing: 0.5px; transition: all 0.15s; }
+    .admin-logout:hover { border-color: var(--red-light); color: var(--red-light); }
+
+    .admin-body { padding: 16px 12px; max-width: 700px; margin: 0 auto; }
+
+    .admin-section { margin-bottom: 24px; }
+    .admin-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid var(--gold-pale); }
+    .admin-section-title { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+    .btn-add-item { background: var(--green-dark); color: #fff; border: none; border-radius: 6px; padding: 7px 13px; font-size: 12px; font-weight: 700; font-family: 'Barlow', sans-serif; cursor: pointer; letter-spacing: 0.5px; display: flex; align-items: center; gap: 5px; transition: background 0.15s; }
+    .btn-add-item:hover { background: var(--green-mid); }
+
+    .admin-item { background: var(--white); border: 1.5px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; transition: border-color 0.15s; }
+    .admin-item:hover { border-color: var(--gold-light); }
+    .admin-item-info { flex: 1; }
+    .admin-item-name { font-size: 13px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; }
+    .admin-item-desc { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+    .admin-item-price { font-size: 14px; font-weight: 700; color: var(--green-mid); white-space: nowrap; }
+    .admin-item-actions { display: flex; gap: 6px; }
+    .btn-edit { background: var(--gold-pale); color: var(--green-dark); border: none; border-radius: 6px; padding: 6px 11px; font-size: 12px; font-weight: 700; font-family: 'Barlow', sans-serif; cursor: pointer; transition: background 0.15s; }
+    .btn-edit:hover { background: var(--gold-light); }
+    .btn-delete { background: #fde8e8; color: var(--red); border: none; border-radius: 6px; padding: 6px 11px; font-size: 12px; font-weight: 700; font-family: 'Barlow', sans-serif; cursor: pointer; transition: background 0.15s; }
+    .btn-delete:hover { background: #f5b8b8; }
+
+    .btn-add-section { display: block; width: 100%; margin-top: 16px; background: transparent; border: 2px dashed var(--border); border-radius: 8px; padding: 13px; font-size: 13px; font-weight: 700; color: var(--text-light); font-family: 'Barlow', sans-serif; cursor: pointer; letter-spacing: 0.5px; transition: border-color 0.15s, color 0.15s; }
+    .btn-add-section:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── EDIT ITEM MODAL ── */
+    .edit-modal .modal { max-width: 440px; }
+    .edit-section-select { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 11px 14px; font-size: 14px; font-family: 'Barlow', sans-serif; outline: none; color: var(--text-dark); background: var(--cream); transition: border-color 0.2s; appearance: none; }
+    .edit-section-select:focus { border-color: var(--gold); }
+
+    /* ── ADMIN SAVE BANNER ── */
+    .save-banner { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--green-dark); color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 6px 24px rgba(0,0,0,0.3); z-index: 999; animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+
+    /* ── CONFIRM MODAL ── */
+    .confirm-modal .modal { max-width: 340px; text-align: center; }
+    .confirm-modal .modal-title { font-size: 16px; }
+    .confirm-msg { font-size: 13px; color: var(--text-mid); margin-bottom: 20px; line-height: 1.5; }
+    .btn-danger { flex: 1; background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 13px; font-size: 14px; font-weight: 700; font-family: 'Barlow', sans-serif; cursor: pointer; transition: background 0.15s; }
+    .btn-danger:hover { background: var(--red-light); }
+
+    /* ── SECTION NAME EDIT ── */
+    .section-name-btn { background: transparent; border: none; cursor: pointer; font-size: 11px; color: var(--text-light); margin-left: 8px; padding: 2px 6px; border-radius: 4px; transition: color 0.15s; }
+    .section-name-btn:hover { color: var(--gold); }
+    .section-delete-btn { background: transparent; border: none; cursor: pointer; font-size: 11px; color: #f5b8b8; margin-left: 4px; padding: 2px 6px; border-radius: 4px; transition: color 0.15s; }
+    .section-delete-btn:hover { color: var(--red); }
   </style>
 </head>
 <body>
+
+<!-- ══════════════ CUSTOMER VIEW ══════════════ -->
+<div id="customer-view">
 
 <header>
   <div class="header-top">
@@ -91,41 +171,20 @@
     <div class="header-title">Halfway House Menu</div>
   </div>
   <div class="header-badge">You are nearby — order now</div>
-  <div id="user-badge" style="display:none; margin: 4px auto 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff; font-size: 12px; font-weight: 600; padding: 4px 14px; border-radius: 20px; width: fit-content;"></div>
+  <div class="admin-link" onclick="showAdminLogin()">⚙ Admin</div>
 </header>
 
-<!-- ── User Info Panel ── -->
 <div class="user-info-panel" id="user-info-panel">
   <div class="user-info-header" onclick="toggleUserPanel()">
-    <div class="user-info-header-left">
-      <span class="icon">👤</span>
-      <span id="user-info-header-label">Your Details <span style="color:#c0392b">*</span></span>
-    </div>
+    <div class="user-info-header-left"><span class="icon">👤</span><span id="user-info-header-label">Your Name <span style="color:#c0392b">*</span></span></div>
     <div style="display:flex;align-items:center;gap:8px;">
       <span class="user-info-prefilled-name" id="user-prefilled-name"></span>
       <span class="user-info-chevron" id="user-chevron">▼</span>
     </div>
   </div>
   <div class="user-info-body visible" id="user-info-body">
-    <div class="user-info-grid">
-      <div class="field-group">
-        <label>First Name <span style="color:#c0392b">*</span></label>
-        <input type="text" id="f-name" placeholder="e.g. John" oninput="onUserInput()" autocomplete="given-name"/>
-      </div>
-      <div class="field-group">
-        <label>Surname</label>
-        <input type="text" id="f-surname" placeholder="e.g. Smith" oninput="onUserInput()" autocomplete="family-name"/>
-      </div>
-      <div class="field-group">
-        <label>Phone Number</label>
-        <input type="tel" id="f-phone" placeholder="e.g. 082 123 4567" oninput="onUserInput()" autocomplete="tel"/>
-      </div>
-      <div class="field-group">
-        <label>Member No.</label>
-        <input type="text" id="f-member" placeholder="e.g. SGC-042" oninput="onUserInput()"/>
-      </div>
-    </div>
-    <div class="required-note"><span>*</span> Required to send your order</div>
+    <div class="field-group"><label>First Name <span style="color:#c0392b">*</span></label><input type="text" id="f-name" placeholder="e.g. John" oninput="onUserInput()" autocomplete="given-name"/></div>
+    <div class="required-note" style="margin-top:10px;"><span>*</span> Required to send your order</div>
   </div>
 </div>
 
@@ -134,193 +193,8 @@
   <span class="cart-total" id="total-price">R0.00</span>
 </div>
 
-<!-- AM FAVOURITES -->
-<div class="section-title"><h2>AM Favourites</h2></div>
+<div id="menu-render"></div>
 
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Birdie</div><div class="card-desc">2 Eggs, Bacon, Tomato &amp; Toast</div></div><div class="card-price">R75</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Birdie" data-price="75"><div class="qty-stepper" id="stepper-Birdie" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Birdie" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Drop Shot Single</div><div class="card-desc">Mince &amp; Egg on Toast</div></div><div class="card-price">R60</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Drop Shot Single" data-price="60"><div class="qty-stepper" id="stepper-Drop_Shot_Single" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Drop_Shot_Single" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Drop Shot Double</div><div class="card-desc">Mince &amp; 2 Eggs on Toast</div></div><div class="card-price">R100</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Drop Shot Double" data-price="100"><div class="qty-stepper" id="stepper-Drop_Shot_Double" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Drop_Shot_Double" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Eagle</div><div class="card-desc">2 Eggs, Bacon, Boerewors, Tomato &amp; Toast</div></div><div class="card-price">R95</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Eagle" data-price="95"><div class="qty-stepper" id="stepper-Eagle" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Eagle" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Breakfast Bun</div><div class="card-desc">1 Egg, Bacon on a toasted Brioche Bun</div></div><div class="card-price">R45</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Breakfast Bun" data-price="45"><div class="qty-stepper" id="stepper-Breakfast_Bun" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Breakfast_Bun" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Eggs &amp; Chips</div><div class="card-desc">2 Eggs &amp; a Portion of Chips</div></div><div class="card-price">R55</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Eggs & Chips" data-price="55"><div class="qty-stepper" id="stepper-Eggs___Chips" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Eggs___Chips" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Plain Omelette</div><div class="card-desc">2 Egg Omelette filled with Cheese</div></div><div class="card-price">R50</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Plain Omelette" data-price="50"><div class="qty-stepper" id="stepper-Plain_Omelette" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Plain_Omelette" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">2 Eggs on Toast</div><div class="card-desc">2 Eggs on Toast</div></div><div class="card-price">R30</div></div>
-  <div class="card-check"><input type="checkbox" data-name="2 Eggs on Toast" data-price="30"><div class="qty-stepper" id="stepper-2_Eggs_on_Toast" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-2_Eggs_on_Toast" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Russian Breakfast</div><div class="card-desc">2 Eggs, Russian &amp; Chips</div></div><div class="card-price">R90</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Russian Breakfast" data-price="90"><div class="qty-stepper" id="stepper-Russian_Breakfast" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Russian_Breakfast" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Protein Bowl</div><div class="card-desc">Boiled Eggs, Cheese, Ham, Lettuce &amp; Tomato</div></div><div class="card-price">R40</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Protein Bowl" data-price="40"><div class="qty-stepper" id="stepper-Protein_Bowl" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Protein_Bowl" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<!-- ON THE SIDE -->
-<div class="section-title"><h2>On the Side</h2></div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Small Chips</div></div><div class="card-price">R30</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Small Chips" data-price="30"><div class="qty-stepper" id="stepper-Small_Chips" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Small_Chips" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Medium Chips</div></div><div class="card-price">R55</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Medium Chips" data-price="55"><div class="qty-stepper" id="stepper-Medium_Chips" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Medium_Chips" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Large Chips</div></div><div class="card-price">R75</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Large Chips" data-price="75"><div class="qty-stepper" id="stepper-Large_Chips" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Large_Chips" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<!-- CLUB TOASTIES -->
-<div class="section-title"><h2>Club Toasties</h2></div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Bacon &amp; Cheese</div></div><div class="card-price">R50</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Toastie: Bacon & Cheese" data-price="50"><div class="qty-stepper" id="stepper-Toastie__Bacon___Cheese" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Bacon___Cheese" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Bacon &amp; Egg</div></div><div class="card-price">R45</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Toastie: Bacon & Egg" data-price="45"><div class="qty-stepper" id="stepper-Toastie__Bacon___Egg" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Bacon___Egg" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Bacon, Egg &amp; Cheese</div></div><div class="card-price">R55</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Toastie: Bacon, Egg & Cheese" data-price="55"><div class="qty-stepper" id="stepper-Toastie__Bacon__Egg___Cheese" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Bacon__Egg___Cheese" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Cheese &amp; Onion</div></div><div class="card-price">R40</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Toastie: Cheese & Onion" data-price="40"><div class="qty-stepper" id="stepper-Toastie__Cheese___Onion" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Cheese___Onion" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Cheese &amp; Tomato</div></div><div class="card-price">R40</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Toastie: Cheese & Tomato" data-price="40"><div class="qty-stepper" id="stepper-Toastie__Cheese___Tomato" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Cheese___Tomato" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Chicken Mayo</div></div><div class="card-price">R45</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Toastie: Chicken Mayo" data-price="45"><div class="qty-stepper" id="stepper-Toastie__Chicken_Mayo" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Chicken_Mayo" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Egg &amp; Cheese</div></div><div class="card-price">R40</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Toastie: Egg & Cheese" data-price="40"><div class="qty-stepper" id="stepper-Toastie__Egg___Cheese" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Egg___Cheese" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Ham &amp; Cheese</div></div><div class="card-price">R40</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Toastie: Ham & Cheese" data-price="40"><div class="qty-stepper" id="stepper-Toastie__Ham___Cheese" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Ham___Cheese" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Ham &amp; Egg</div></div><div class="card-price">R40</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Toastie: Ham & Egg" data-price="40"><div class="qty-stepper" id="stepper-Toastie__Ham___Egg" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Ham___Egg" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Ham, Cheese &amp; Tomato</div></div><div class="card-price">R45</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Toastie: Ham, Cheese & Tomato" data-price="45"><div class="qty-stepper" id="stepper-Toastie__Ham__Cheese___Tomato" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Ham__Cheese___Tomato" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Mince &amp; Cheese</div></div><div class="card-price">R65</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Toastie: Mince & Cheese" data-price="65"><div class="qty-stepper" id="stepper-Toastie__Mince___Cheese" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Mince___Cheese" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Plain Cheese</div></div><div class="card-price">R35</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Toastie: Plain Cheese" data-price="35"><div class="qty-stepper" id="stepper-Toastie__Plain_Cheese" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Toastie__Plain_Cheese" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<!-- ON-THE-GO GOODIES -->
-<div class="section-title"><h2>On-The-Go Goodies</h2></div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Chicken Wrap</div><div class="card-desc">Chicken Tenders, Lettuce, Cucumber, Tomato, Onion in a Tortilla Wrap</div></div><div class="card-price">R60</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Chicken Wrap" data-price="60"><div class="qty-stepper" id="stepper-Chicken_Wrap" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Chicken_Wrap" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Chicken Strips &amp; Chips</div><div class="card-desc">Crumbed Chicken Breast Fillet with Chips</div></div><div class="card-price">R95</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Chicken Strips & Chips" data-price="95"><div class="qty-stepper" id="stepper-Chicken_Strips___Chips" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Chicken_Strips___Chips" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Beef Burger</div><div class="card-desc">Homemade 150g grilled Beef Patty on a seeded Brioche Bun</div></div><div class="card-price">R80</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Beef Burger" data-price="80"><div class="qty-stepper" id="stepper-Beef_Burger" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Beef_Burger" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<div class="menu-card">
-  <div class="card-accent"></div>
-  <div class="card-body"><div class="card-info"><div class="card-name">Chicken Burger</div><div class="card-desc">Grilled Chicken Breast Fillet on a seeded Brioche Bun</div></div><div class="card-price">R80</div></div>
-  <div class="card-check"><input type="checkbox" data-name="Chicken Burger" data-price="80"><div class="qty-stepper" id="stepper-Chicken_Burger" style="display:none;"><button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button><span class="qty-count">1</span><button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button></div><button class="qty-btn add-btn" id="addbtn-Chicken_Burger" onclick="addItem(event,this)">+</button></div>
-</div>
-
-<!-- SPECIAL REQUESTS -->
 <div class="section-title"><h2>Special Requests</h2></div>
 <div class="comment-section">
   <label for="comment">Notes for the kitchen</label>
@@ -328,210 +202,597 @@
 </div>
 
 <button class="send-btn" id="send-btn" onclick="sendOrder()" disabled>
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-  </svg>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   Send Order via WhatsApp
 </button>
 
-<div class="footer">
-  ⛳ Strand Golf Club · Est. 1924<br>
-  Beach Road, Strand · +27 21 853 6268<br>
-  Prices include VAT
+<div class="footer">⛳ Strand Golf Club · Est. 1924<br>Beach Road, Strand · +27 21 853 6268<br>Prices include VAT</div>
+
+</div><!-- end #customer-view -->
+
+
+<!-- ══════════════ ADMIN PANEL ══════════════ -->
+<div id="admin-panel">
+  <div class="admin-header">
+    <div class="admin-header-title">⛳ Menu Admin</div>
+    <button class="admin-logout" onclick="adminLogout()">Log Out</button>
+  </div>
+  <div class="admin-body" id="admin-body">
+    <!-- rendered by JS -->
+  </div>
+  <div style="text-align:center; padding: 0 12px 40px;">
+    <button class="btn-add-section" onclick="addSection()">+ Add New Menu Section</button>
+  </div>
 </div>
 
+
+<!-- ══════════════ ADMIN LOGIN MODAL ══════════════ -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal">
+    <div class="modal-title">🔐 Admin Login</div>
+    <div class="modal-sub">Enter your admin password to manage the menu.</div>
+    <div class="modal-field">
+      <label>Password</label>
+      <input type="password" id="admin-password" placeholder="Enter password" onkeydown="if(event.key==='Enter')doAdminLogin()" autocomplete="current-password"/>
+    </div>
+    <div class="modal-error" id="login-error">Incorrect password. Please try again.</div>
+    <div class="modal-btns">
+      <button class="btn-secondary" onclick="closeLoginModal()">Cancel</button>
+      <button class="btn-primary" onclick="doAdminLogin()">Login</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ EDIT ITEM MODAL ══════════════ -->
+<div class="modal-overlay edit-modal" id="edit-modal">
+  <div class="modal">
+    <div class="modal-title" id="edit-modal-title">Edit Item</div>
+    <div class="modal-sub" id="edit-modal-sub">Update the details below.</div>
+    <div class="modal-field">
+      <label>Item Name *</label>
+      <input type="text" id="edit-name" placeholder="e.g. Birdie Breakfast"/>
+    </div>
+    <div class="modal-field">
+      <label>Description (optional)</label>
+      <input type="text" id="edit-desc" placeholder="e.g. 2 Eggs, Bacon, Toast"/>
+    </div>
+    <div class="modal-field">
+      <label>Price (R) *</label>
+      <input type="number" id="edit-price" placeholder="e.g. 75" min="0" step="1"/>
+    </div>
+    <div class="modal-field">
+      <label>Section</label>
+      <select class="edit-section-select" id="edit-section"></select>
+    </div>
+    <div class="modal-error" id="edit-error">Please fill in the item name and price.</div>
+    <div class="modal-btns">
+      <button class="btn-secondary" onclick="closeEditModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveEditItem()">Save Item</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ CONFIRM DELETE MODAL ══════════════ -->
+<div class="modal-overlay confirm-modal" id="confirm-modal">
+  <div class="modal">
+    <div class="modal-title">Delete Item?</div>
+    <div class="confirm-msg" id="confirm-msg">Are you sure you want to delete this item? This cannot be undone.</div>
+    <div class="modal-btns">
+      <button class="btn-secondary" onclick="closeConfirmModal()">Cancel</button>
+      <button class="btn-danger" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ EDIT SECTION NAME MODAL ══════════════ -->
+<div class="modal-overlay" id="section-modal">
+  <div class="modal">
+    <div class="modal-title" id="section-modal-title">Rename Section</div>
+    <div class="modal-field">
+      <label>Section Name *</label>
+      <input type="text" id="section-name-input" placeholder="e.g. Lunch Specials" onkeydown="if(event.key==='Enter')saveSectionName()"/>
+    </div>
+    <div class="modal-error" id="section-error">Section name cannot be empty.</div>
+    <div class="modal-btns">
+      <button class="btn-secondary" onclick="closeSectionModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveSectionName()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- SAVE BANNER -->
+<div class="save-banner" id="save-banner">✓ Menu saved successfully</div>
+
+
 <script>
-  const WHATSAPP_NUMBER = '27615142620';
+const WHATSAPP_NUMBER = '27615142620';
+const ADMIN_PASSWORD  = 'sgc2024'; // ← Change this password
 
-  // ── URL / injected user info ──
-  function getUrlUserInfo() {
-    const p = new URLSearchParams(window.location.search);
-    return {
-      name:    p.get('user_name')    || window._userName    || '',
-      surname: p.get('user_surname') || window._userSurname || '',
-      phone:   p.get('user_phone')   || window._userPhone   || '',
-      member:  p.get('user_member')  || window._userMember  || ''
-    };
-  }
-  function getFormUserInfo() {
-    return {
-      name:    document.getElementById('f-name').value.trim(),
-      surname: document.getElementById('f-surname').value.trim(),
-      phone:   document.getElementById('f-phone').value.trim(),
-      member:  document.getElementById('f-member').value.trim()
-    };
-  }
-  function getUserInfo() {
-    const u = getUrlUserInfo(), f = getFormUserInfo();
-    return { name: u.name||f.name, surname: u.surname||f.surname, phone: u.phone||f.phone, member: u.member||f.member };
-  }
+// ─────────────────────────────────────────────────────────────
+// DEFAULT MENU DATA
+// ─────────────────────────────────────────────────────────────
+const DEFAULT_MENU = [
+  { section: "AM Favourites", items: [
+    { name: "Birdie", desc: "2 Eggs, Bacon, Tomato & Toast", price: 75 },
+    { name: "Drop Shot Single", desc: "Mince & Egg on Toast", price: 60 },
+    { name: "Drop Shot Double", desc: "Mince & 2 Eggs on Toast", price: 100 },
+    { name: "Eagle", desc: "2 Eggs, Bacon, Boerewors, Tomato & Toast", price: 95 },
+    { name: "Breakfast Bun", desc: "1 Egg, Bacon on a toasted Brioche Bun", price: 45 },
+    { name: "Eggs & Chips", desc: "2 Eggs & a Portion of Chips", price: 55 },
+    { name: "Plain Omelette", desc: "2 Egg Omelette filled with Cheese", price: 50 },
+    { name: "2 Eggs on Toast", desc: "2 Eggs on Toast", price: 30 },
+    { name: "Russian Breakfast", desc: "2 Eggs, Russian & Chips", price: 90 },
+    { name: "Protein Bowl", desc: "Boiled Eggs, Cheese, Ham, Lettuce & Tomato", price: 40 }
+  ]},
+  { section: "On the Side", items: [
+    { name: "Small Chips", desc: "", price: 30 },
+    { name: "Medium Chips", desc: "", price: 55 },
+    { name: "Large Chips", desc: "", price: 75 }
+  ]},
+  { section: "Club Toasties", items: [
+    { name: "Bacon & Cheese", desc: "", price: 50 },
+    { name: "Bacon & Egg", desc: "", price: 45 },
+    { name: "Bacon, Egg & Cheese", desc: "", price: 55 },
+    { name: "Cheese & Onion", desc: "", price: 40 },
+    { name: "Cheese & Tomato", desc: "", price: 40 },
+    { name: "Chicken Mayo", desc: "", price: 45 },
+    { name: "Egg & Cheese", desc: "", price: 40 },
+    { name: "Ham & Cheese", desc: "", price: 40 },
+    { name: "Ham & Egg", desc: "", price: 40 },
+    { name: "Ham, Cheese & Tomato", desc: "", price: 45 },
+    { name: "Mince & Cheese", desc: "", price: 65 },
+    { name: "Plain Cheese", desc: "", price: 35 }
+  ]},
+  { section: "On-The-Go Goodies", items: [
+    { name: "Chicken Wrap", desc: "Chicken Tenders, Lettuce, Cucumber, Tomato, Onion in a Tortilla Wrap", price: 60 },
+    { name: "Chicken Strips & Chips", desc: "Crumbed Chicken Breast Fillet with Chips", price: 95 },
+    { name: "Beef Burger", desc: "Homemade 150g grilled Beef Patty on a seeded Brioche Bun", price: 80 },
+    { name: "Chicken Burger", desc: "Grilled Chicken Breast Fillet on a seeded Brioche Bun", price: 80 }
+  ]}
+];
 
-  // ── User Panel ──
-  function toggleUserPanel() {
-    const body = document.getElementById('user-info-body');
-    const chev = document.getElementById('user-chevron');
-    const open = body.classList.contains('visible');
-    body.classList.toggle('visible', !open);
-    chev.classList.toggle('open', !open);
-  }
-  function onUserInput() {
-    const name    = document.getElementById('f-name').value.trim();
-    const surname = document.getElementById('f-surname').value.trim();
-    ['f-name','f-surname','f-phone','f-member'].forEach(id => {
-      const el = document.getElementById(id);
-      el.classList.toggle('filled', el.value.trim().length > 0);
+// ─────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────
+let menuData = loadMenu();
+let cart = {};
+let editTarget = null; // { sectionIdx, itemIdx } or null for new
+let deleteTarget = null;
+let sectionTarget = null; // idx for renaming
+
+function loadMenu() {
+  try {
+    const saved = localStorage.getItem('sgc_menu');
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return JSON.parse(JSON.stringify(DEFAULT_MENU));
+}
+function saveMenu() {
+  localStorage.setItem('sgc_menu', JSON.stringify(menuData));
+  showSaveBanner();
+}
+
+// ─────────────────────────────────────────────────────────────
+// CUSTOMER VIEW – RENDER MENU
+// ─────────────────────────────────────────────────────────────
+function getSafeId(name) { return name.replace(/[^a-zA-Z0-9]/g,'_'); }
+
+function renderCustomerMenu() {
+  const container = document.getElementById('menu-render');
+  container.innerHTML = '';
+  cart = {};
+  updateCart();
+
+  menuData.forEach(section => {
+    const secDiv = document.createElement('div');
+    secDiv.innerHTML = `<div class="section-title"><h2>${escHtml(section.section)}</h2></div>`;
+    container.appendChild(secDiv);
+
+    section.items.forEach(item => {
+      const sid = getSafeId(item.name);
+      const card = document.createElement('div');
+      card.className = 'menu-card';
+      card.innerHTML = `
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-info">
+            <div class="card-name">${escHtml(item.name)}</div>
+            ${item.desc ? `<div class="card-desc">${escHtml(item.desc)}</div>` : ''}
+          </div>
+          <div class="card-price">R${item.price}</div>
+        </div>
+        <div class="card-check">
+          <input type="checkbox" data-name="${escAttr(item.name)}" data-price="${item.price}">
+          <div class="qty-stepper" id="stepper-${sid}" style="display:none;">
+            <button class="qty-btn minus" onclick="changeQty(event,this,-1)">−</button>
+            <span class="qty-count">1</span>
+            <button class="qty-btn plus" onclick="changeQty(event,this,1)">+</button>
+          </div>
+          <button class="qty-btn add-btn" id="addbtn-${sid}" onclick="addItem(event,this)">+</button>
+        </div>`;
+      container.appendChild(card);
     });
-    document.getElementById('user-prefilled-name').textContent = [name,surname].filter(Boolean).join(' ');
-    updateSendBtn();
-  }
-  function prefillForm(user) {
-    if (user.name)    document.getElementById('f-name').value    = user.name;
-    if (user.surname) document.getElementById('f-surname').value = user.surname;
-    if (user.phone)   document.getElementById('f-phone').value   = user.phone;
-    if (user.member)  document.getElementById('f-member').value  = user.member;
-    onUserInput();
-    if (user.name || user.surname) {
-      document.getElementById('user-info-panel').classList.add('prefilled');
-      document.getElementById('user-info-body').classList.remove('visible');
-      document.getElementById('user-chevron').classList.remove('open');
-      document.getElementById('user-info-header-label').innerHTML = 'Ordering as';
-    }
-  }
-  function applyUserInfo() { prefillForm(getUrlUserInfo()); }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    const u = getUrlUserInfo();
-    if (u.name||u.surname||u.phone||u.member) prefillForm(u);
-    updateSendBtn();
   });
+}
 
-  // ── Cart: keyed by name ──
-  const cart = {}; // name -> { name, price, qty }
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function escAttr(s) { return String(s).replace(/"/g,'&quot;'); }
 
-  function getSafeName(btn) {
-    // Walk up to card-check, find the hidden checkbox
-    const check = btn.closest('.card-check');
-    return check.querySelector('input[type=checkbox]').dataset.name;
+// ─────────────────────────────────────────────────────────────
+// CART LOGIC
+// ─────────────────────────────────────────────────────────────
+function getSafeName(btn) { return btn.closest('.card-check').querySelector('input[type=checkbox]').dataset.name; }
+function getPrice(btn) { return parseFloat(btn.closest('.card-check').querySelector('input[type=checkbox]').dataset.price); }
+
+function addItem(e, btn) {
+  e.stopPropagation();
+  const name = getSafeName(btn), price = getPrice(btn), sid = getSafeId(name);
+  cart[name] = { name, price, qty: 1 };
+  document.getElementById('stepper-'+sid).style.display = 'flex';
+  btn.style.display = 'none';
+  btn.closest('.menu-card').classList.add('selected');
+  updateMinusBtn(sid, 1);
+  updateCart();
+}
+
+function changeQty(e, btn, delta) {
+  e.stopPropagation();
+  const check = btn.closest('.card-check');
+  const name = check.querySelector('input[type=checkbox]').dataset.name;
+  const sid = getSafeId(name);
+  const stepper = document.getElementById('stepper-'+sid);
+  const addBtn = document.getElementById('addbtn-'+sid);
+  let qty = (cart[name] ? cart[name].qty : 0) + delta;
+  if (qty <= 0) {
+    delete cart[name];
+    stepper.style.display = 'none';
+    addBtn.style.display = '';
+    btn.closest('.menu-card').classList.remove('selected');
+  } else {
+    cart[name].qty = qty;
+    stepper.querySelector('.qty-count').textContent = qty;
+    updateMinusBtn(sid, qty);
   }
-  function getPrice(btn) {
-    return parseFloat(btn.closest('.card-check').querySelector('input[type=checkbox]').dataset.price);
+  updateCart();
+}
+
+function updateMinusBtn(sid, qty) {
+  const minus = document.querySelector('#stepper-'+sid+' .minus');
+  if (!minus) return;
+  minus.classList.toggle('minus', qty <= 1);
+  minus.style.opacity = qty <= 1 ? '0.35' : '1';
+  minus.style.pointerEvents = qty <= 1 ? 'none' : 'auto';
+}
+
+function updateCart() {
+  const items = Object.values(cart);
+  const count = items.reduce((s,i) => s+i.qty, 0);
+  const total = items.reduce((s,i) => s+i.price*i.qty, 0);
+  document.getElementById('item-count').textContent = count + (count===1?' item':' items');
+  document.getElementById('total-price').textContent = 'R'+total.toFixed(2);
+  updateSendBtn();
+}
+
+function updateSendBtn() {
+  const name = document.getElementById('f-name').value.trim() || getUrlUserInfo().name;
+  const hasItem = Object.keys(cart).length > 0;
+  document.getElementById('send-btn').disabled = !hasItem || !name;
+}
+
+// ─────────────────────────────────────────────────────────────
+// USER INFO
+// ─────────────────────────────────────────────────────────────
+function getUrlUserInfo() {
+  const p = new URLSearchParams(window.location.search);
+  return { name: p.get('user_name') || window._userName || '' };
+}
+function getFormUserInfo() {
+  return { name: document.getElementById('f-name').value.trim() };
+}
+function getUserInfo() {
+  const u = getUrlUserInfo(), f = getFormUserInfo();
+  return { name: u.name || f.name };
+}
+function toggleUserPanel() {
+  const body = document.getElementById('user-info-body');
+  const chev = document.getElementById('user-chevron');
+  const open = body.classList.contains('visible');
+  body.classList.toggle('visible', !open);
+  chev.classList.toggle('open', !open);
+}
+function onUserInput() {
+  const name = document.getElementById('f-name').value.trim();
+  const el = document.getElementById('f-name');
+  el.classList.toggle('filled', el.value.trim().length > 0);
+  document.getElementById('user-prefilled-name').textContent = name;
+  updateSendBtn();
+}
+function prefillForm(user) {
+  if (user.name) document.getElementById('f-name').value = user.name;
+  onUserInput();
+  if (user.name) {
+    document.getElementById('user-info-panel').classList.add('prefilled');
+    document.getElementById('user-info-body').classList.remove('visible');
+    document.getElementById('user-chevron').classList.remove('open');
+    document.getElementById('user-info-header-label').innerHTML = 'Ordering as';
   }
-  function getSafeId(name) { return name.replace(/[^a-zA-Z0-9]/g,'_'); }
+}
 
-  function addItem(e, btn) {
-    e.stopPropagation();
-    const name  = getSafeName(btn);
-    const price = getPrice(btn);
-    const sid   = getSafeId(name);
-    cart[name]  = { name, price, qty: 1 };
-    // Show stepper, hide add btn
-    document.getElementById('stepper-'+sid).style.display = 'flex';
-    btn.style.display = 'none';
-    // Highlight card
-    btn.closest('.menu-card').classList.add('selected');
-    btn.closest('.menu-card').querySelector('.card-accent').style.background = 'var(--gold)';
-    updateMinusBtn(sid, 1);
-    updateCart();
+// ─────────────────────────────────────────────────────────────
+// SEND ORDER
+// ─────────────────────────────────────────────────────────────
+function sendOrder() {
+  const user = getUserInfo();
+  if (!user.name) { alert('Please enter your first name before sending.'); return; }
+  const items = Object.values(cart);
+  if (!items.length) return;
+  const comment = document.getElementById('comment').value.trim();
+  const now = new Date().toLocaleTimeString('en-ZA', { hour:'2-digit', minute:'2-digit' });
+  const total = items.reduce((s,i) => s+i.price*i.qty, 0);
+  let msg = `🍽️ *New Halfway House Order*\n🕐 Time: ${now}\n─────────────────────\n\n`;
+  msg += `👤 *Customer:* ${user.name}\n\n`;
+  msg += `📋 *Order*\n`;
+  items.forEach(i => { const lt=(i.price*i.qty).toFixed(2); const q=i.qty>1?` x${i.qty}`:''; msg+=`   ✅ ${i.name}${q}  –  R${lt}\n`; });
+  msg += `\n💰 *Total: R${total.toFixed(2)}*`;
+  if (comment) msg += `\n\n📝 *Note:* ${comment}`;
+  msg += `\n\n─────────────────────\n⛳ Strand Golf Club`;
+  window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+}
+
+// ─────────────────────────────────────────────────────────────
+// ADMIN LOGIN
+// ─────────────────────────────────────────────────────────────
+function showAdminLogin() {
+  document.getElementById('login-modal').classList.add('active');
+  setTimeout(() => document.getElementById('admin-password').focus(), 100);
+}
+function closeLoginModal() {
+  document.getElementById('login-modal').classList.remove('active');
+  document.getElementById('admin-password').value = '';
+  document.getElementById('login-error').style.display = 'none';
+}
+function doAdminLogin() {
+  const pw = document.getElementById('admin-password').value;
+  if (pw === ADMIN_PASSWORD) {
+    closeLoginModal();
+    showAdminPanel();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('admin-password').value = '';
+    document.getElementById('admin-password').focus();
   }
+}
+function adminLogout() {
+  document.getElementById('admin-panel').classList.remove('active');
+  document.getElementById('customer-view').style.display = '';
+}
+function showAdminPanel() {
+  document.getElementById('customer-view').style.display = 'none';
+  document.getElementById('admin-panel').classList.add('active');
+  renderAdminPanel();
+}
 
-  function changeQty(e, btn, delta) {
-    e.stopPropagation();
-    const check   = btn.closest('.card-check');
-    const name    = check.querySelector('input[type=checkbox]').dataset.name;
-    const sid     = getSafeId(name);
-    const stepper = document.getElementById('stepper-'+sid);
-    const addBtn  = document.getElementById('addbtn-'+sid);
-    let qty = (cart[name] ? cart[name].qty : 0) + delta;
+// ─────────────────────────────────────────────────────────────
+// ADMIN PANEL RENDER
+// ─────────────────────────────────────────────────────────────
+function renderAdminPanel() {
+  const body = document.getElementById('admin-body');
+  body.innerHTML = '';
+  menuData.forEach((section, si) => {
+    const sec = document.createElement('div');
+    sec.className = 'admin-section';
+    sec.innerHTML = `
+      <div class="admin-section-header">
+        <div style="display:flex;align-items:center;">
+          <span class="admin-section-title">${escHtml(section.section)}</span>
+          <button class="section-name-btn" onclick="editSectionName(${si})" title="Rename section">✏️</button>
+          <button class="section-delete-btn" onclick="deleteSection(${si})" title="Delete section">🗑</button>
+        </div>
+        <button class="btn-add-item" onclick="openAddItem(${si})">+ Add Item</button>
+      </div>
+      <div id="admin-items-${si}"></div>`;
+    body.appendChild(sec);
 
-    if (qty <= 0) {
-      // Remove from cart
-      delete cart[name];
-      stepper.style.display = 'none';
-      addBtn.style.display  = '';
-      btn.closest('.menu-card').classList.remove('selected');
-    } else {
-      cart[name].qty = qty;
-      stepper.querySelector('.qty-count').textContent = qty;
-      updateMinusBtn(sid, qty);
-    }
-    updateCart();
-  }
-
-  function updateMinusBtn(sid, qty) {
-    const minus = document.querySelector('#stepper-'+sid+' .minus');
-    if (!minus) return;
-    minus.classList.toggle('minus', qty <= 1);
-    minus.style.opacity       = qty <= 1 ? '0.35' : '1';
-    minus.style.pointerEvents = qty <= 1 ? 'none'  : 'auto';
-  }
-
-  function updateCart() {
-    const items = Object.values(cart);
-    const count = items.reduce((s,i) => s + i.qty, 0);
-    const total = items.reduce((s,i) => s + i.price * i.qty, 0);
-    document.getElementById('item-count').textContent = count + (count === 1 ? ' item' : ' items');
-    document.getElementById('total-price').textContent = 'R' + total.toFixed(2);
-    updateSendBtn();
-  }
-
-  function updateSendBtn() {
-    const name    = document.getElementById('f-name').value.trim() || getUrlUserInfo().name;
-    const hasItem = Object.keys(cart).length > 0;
-    document.getElementById('send-btn').disabled = !hasItem || !name;
-  }
-
-  // ── Send Order ──
-  function sendOrder() {
-    const user  = getUserInfo();
-    if (!user.name) { alert('Please enter your first name before sending.'); return; }
-    const items = Object.values(cart);
-    if (!items.length) return;
-
-    const comment  = document.getElementById('comment').value.trim();
-    const now      = new Date().toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' });
-    const total    = items.reduce((s,i) => s + i.price * i.qty, 0);
-    const fullName = [user.name, user.surname].filter(Boolean).join(' ');
-
-    let msg = `🍽️ *New Halfway House Order*
-`;
-    msg    += `🕐 Time: ${now}
-`;
-    msg    += `─────────────────────
-
-`;
-
-    msg    += `👤 *Customer*
-`;
-    msg    += `   ${fullName}
-`;
-    if (user.phone)  msg += `   📞 ${user.phone}
-`;
-    if (user.member) msg += `   🏌️ Member #${user.member}
-`;
-    msg    += `
-`;
-
-    msg    += `📋 *Order*
-`;
-    items.forEach(i => {
-      const lineTotal = (i.price * i.qty).toFixed(2);
-      const qtyStr    = i.qty > 1 ? ` x${i.qty}` : '';
-      msg += `   ✅ ${i.name}${qtyStr}  –  R${lineTotal}
-`;
+    const itemsDiv = sec.querySelector(`#admin-items-${si}`);
+    section.items.forEach((item, ii) => {
+      const row = document.createElement('div');
+      row.className = 'admin-item';
+      row.innerHTML = `
+        <div class="admin-item-info">
+          <div class="admin-item-name">${escHtml(item.name)}</div>
+          ${item.desc ? `<div class="admin-item-desc">${escHtml(item.desc)}</div>` : ''}
+        </div>
+        <div class="admin-item-price">R${item.price}</div>
+        <div class="admin-item-actions">
+          <button class="btn-edit" onclick="openEditItem(${si},${ii})">Edit</button>
+          <button class="btn-delete" onclick="openDeleteItem(${si},${ii})">Delete</button>
+        </div>`;
+      itemsDiv.appendChild(row);
     });
-    msg += `
-💰 *Total: R${total.toFixed(2)}*`;
+  });
+}
 
-    if (comment) msg += `
+// ─────────────────────────────────────────────────────────────
+// EDIT / ADD ITEM
+// ─────────────────────────────────────────────────────────────
+function populateSectionSelect(currentSi) {
+  const sel = document.getElementById('edit-section');
+  sel.innerHTML = '';
+  menuData.forEach((s, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = s.section;
+    if (i === currentSi) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
 
-📝 *Note:* ${comment}`;
-    msg += `
+function openAddItem(si) {
+  editTarget = { sectionIdx: si, itemIdx: null };
+  document.getElementById('edit-modal-title').textContent = 'Add New Item';
+  document.getElementById('edit-modal-sub').textContent = 'Fill in the details for the new menu item.';
+  document.getElementById('edit-name').value = '';
+  document.getElementById('edit-desc').value = '';
+  document.getElementById('edit-price').value = '';
+  document.getElementById('edit-error').style.display = 'none';
+  populateSectionSelect(si);
+  document.getElementById('edit-modal').classList.add('active');
+  setTimeout(() => document.getElementById('edit-name').focus(), 100);
+}
 
-─────────────────────
-⛳ Strand Golf Club`;
+function openEditItem(si, ii) {
+  const item = menuData[si].items[ii];
+  editTarget = { sectionIdx: si, itemIdx: ii };
+  document.getElementById('edit-modal-title').textContent = 'Edit Item';
+  document.getElementById('edit-modal-sub').textContent = 'Update the details below.';
+  document.getElementById('edit-name').value = item.name;
+  document.getElementById('edit-desc').value = item.desc || '';
+  document.getElementById('edit-price').value = item.price;
+  document.getElementById('edit-error').style.display = 'none';
+  populateSectionSelect(si);
+  document.getElementById('edit-modal').classList.add('active');
+  setTimeout(() => document.getElementById('edit-name').focus(), 100);
+}
 
-    window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+function closeEditModal() {
+  document.getElementById('edit-modal').classList.remove('active');
+  editTarget = null;
+}
+
+function saveEditItem() {
+  const name = document.getElementById('edit-name').value.trim();
+  const desc = document.getElementById('edit-desc').value.trim();
+  const price = parseFloat(document.getElementById('edit-price').value);
+  const newSi = parseInt(document.getElementById('edit-section').value);
+
+  if (!name || isNaN(price) || price < 0) {
+    document.getElementById('edit-error').style.display = 'block';
+    return;
   }
+  document.getElementById('edit-error').style.display = 'none';
+
+  const item = { name, desc, price };
+
+  if (editTarget.itemIdx === null) {
+    // Add new
+    menuData[newSi].items.push(item);
+  } else {
+    const origSi = editTarget.sectionIdx;
+    if (origSi === newSi) {
+      menuData[origSi].items[editTarget.itemIdx] = item;
+    } else {
+      // Move to different section
+      menuData[origSi].items.splice(editTarget.itemIdx, 1);
+      menuData[newSi].items.push(item);
+    }
+  }
+
+  saveMenu();
+  closeEditModal();
+  renderAdminPanel();
+  renderCustomerMenu();
+}
+
+// ─────────────────────────────────────────────────────────────
+// DELETE ITEM
+// ─────────────────────────────────────────────────────────────
+function openDeleteItem(si, ii) {
+  deleteTarget = { sectionIdx: si, itemIdx: ii };
+  const item = menuData[si].items[ii];
+  document.getElementById('confirm-msg').textContent = `Are you sure you want to delete "${item.name}"? This cannot be undone.`;
+  document.getElementById('confirm-modal').classList.add('active');
+}
+function closeConfirmModal() {
+  document.getElementById('confirm-modal').classList.remove('active');
+  deleteTarget = null;
+}
+function confirmDelete() {
+  if (!deleteTarget) return;
+  menuData[deleteTarget.sectionIdx].items.splice(deleteTarget.itemIdx, 1);
+  saveMenu();
+  closeConfirmModal();
+  renderAdminPanel();
+  renderCustomerMenu();
+}
+
+// ─────────────────────────────────────────────────────────────
+// SECTION MANAGEMENT
+// ─────────────────────────────────────────────────────────────
+function addSection() {
+  sectionTarget = null; // new
+  document.getElementById('section-modal-title').textContent = 'Add New Section';
+  document.getElementById('section-name-input').value = '';
+  document.getElementById('section-error').style.display = 'none';
+  document.getElementById('section-modal').classList.add('active');
+  setTimeout(() => document.getElementById('section-name-input').focus(), 100);
+}
+function editSectionName(si) {
+  sectionTarget = si;
+  document.getElementById('section-modal-title').textContent = 'Rename Section';
+  document.getElementById('section-name-input').value = menuData[si].section;
+  document.getElementById('section-error').style.display = 'none';
+  document.getElementById('section-modal').classList.add('active');
+  setTimeout(() => document.getElementById('section-name-input').focus(), 100);
+}
+function closeSectionModal() {
+  document.getElementById('section-modal').classList.remove('active');
+  sectionTarget = null;
+}
+function saveSectionName() {
+  const name = document.getElementById('section-name-input').value.trim();
+  if (!name) { document.getElementById('section-error').style.display = 'block'; return; }
+  if (sectionTarget === null) {
+    menuData.push({ section: name, items: [] });
+  } else {
+    menuData[sectionTarget].section = name;
+  }
+  saveMenu();
+  closeSectionModal();
+  renderAdminPanel();
+  renderCustomerMenu();
+}
+function deleteSection(si) {
+  const sec = menuData[si];
+  if (!confirm(`Delete the entire "${sec.section}" section and all its ${sec.items.length} item(s)?`)) return;
+  menuData.splice(si, 1);
+  saveMenu();
+  renderAdminPanel();
+  renderCustomerMenu();
+}
+
+// ─────────────────────────────────────────────────────────────
+// SAVE BANNER
+// ─────────────────────────────────────────────────────────────
+function showSaveBanner() {
+  const b = document.getElementById('save-banner');
+  b.style.display = 'block';
+  clearTimeout(b._t);
+  b._t = setTimeout(() => { b.style.display = 'none'; }, 2500);
+}
+
+// ─────────────────────────────────────────────────────────────
+// CLOSE MODALS ON OVERLAY CLICK
+// ─────────────────────────────────────────────────────────────
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) {
+      overlay.classList.remove('active');
+    }
+  });
+});
+
+// ─────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  renderCustomerMenu();
+  const u = getUrlUserInfo();
+  if (u.name) prefillForm(u);
+  updateSendBtn();
+});
 </script>
 </body>
 </html>
