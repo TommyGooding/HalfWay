@@ -1,0 +1,13 @@
+{
+  "name": "sgc-menu",
+  "version": "1.0.0",
+  "description": "Strand Golf Club Halfway House Menu",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
