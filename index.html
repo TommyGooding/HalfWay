@@ -535,8 +535,8 @@ function updateMinusBtn(sid, qty) {
   const minus = document.querySelector('#stepper-'+sid+' .minus');
   if (!minus) return;
   minus.classList.toggle('minus', qty <= 1);
-  minus.style.opacity = qty <= 1 ? '0.35' : '1';
-  minus.style.pointerEvents = qty <= 1 ? 'none' : 'auto';
+  minus.style.opacity = qty = 0 ? '0.35' : '1';
+  minus.style.pointerEvents = qty = 0 ? 'none' : 'auto';
 }
 
 function updateCart() {
